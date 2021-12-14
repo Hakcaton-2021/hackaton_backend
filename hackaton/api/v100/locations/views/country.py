@@ -14,11 +14,7 @@ from hackaton.api.v100.locations.serializers.country import (
     UpdateSerializer,
 )
 from hackaton.apps.locations.services import country as country_services
-from hackaton.utils.lib.constants import (
-    DATA_NOT_FOUND,
-    PERMISSIONS_ERROR,
-    SERVER_ERROR,
-)
+from hackaton.utils.lib.constants import DATA_NOT_FOUND, PERMISSIONS_ERROR, SERVER_ERROR
 
 
 class CountryViewset(viewsets.ViewSet):
@@ -63,7 +59,7 @@ class CountryViewset(viewsets.ViewSet):
             return Response(DATA_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         serializer = UpdateSerializer(country, data=request.data)
         if serializer.is_valid():
-            serializer.save(update_fields=["code","name", "updated_at"])
+            serializer.save(update_fields=["code", "name", "updated_at"])
             return Response(
                 data={"message": "Pais actualizado con exito"},
                 status=status.HTTP_200_OK,

@@ -1,72 +1,73 @@
 from django.db import models
+
 from hackaton.apps.central.models import Bank, Mutual
 from hackaton.apps.forms.models import Forms
-from hackaton.apps.locations.models import Country, Comuna
+from hackaton.apps.locations.models import Comuna, Country
 
 
 class PaymentMobilization(models.Model):
-    """ Pago Movilización y Colación 
-    """
+    """Pago Movilización y Colación"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "payment_mobilization"
 
 
 class Gratification(models.Model):
-    """ Pago Gratificación 
-    """
+    """Pago Gratificación"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "gratification"
 
 
 class CompanyType(models.Model):
-    """ Tipo de Razón Social 
-    """
+    """Tipo de Razón Social"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "company_type"
 
 
 class CompanyType(models.Model):
-    """ Tipo de Razón Social 
-    """
+    """Tipo de Razón Social"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "company_type"
 
 
 class Company(models.Model):
-    """ Razón Social 
-    """
+    """Razón Social"""
+
     business_rut = models.CharField(max_length=100, db_index=True)
     business_name = models.CharField(max_length=300)
     business_giro = models.CharField(max_length=600)
@@ -83,24 +84,24 @@ class Company(models.Model):
     mutual = models.ForeignKey(Mutual, on_delete=models.PROTECT)
     mutual_amount = models.FloatField(default=0)
     parent = models.IntegerField(default=None, db_index=True, null=True)
-    checking_account = models.IntegerField(
-        default=None, db_index=True, null=True)
+    checking_account = models.IntegerField(default=None, db_index=True, null=True)
     checking_bank = models.ForeignKey(Bank, on_delete=models.PROTECT)
     payment_mobilization = models.ForeignKey(
-        PaymentMobilization, on_delete=models.PROTECT)
+        PaymentMobilization, on_delete=models.PROTECT
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.business_rut}: {self.business_name}'
+        return f"{self.business_rut}: {self.business_name}"
 
     class Meta:
         db_table = "company"
 
 
 class CostCenter(models.Model):
-    """ Centro de Costo
-    """
+    """Centro de Costo"""
+
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     name = models.CharField(max_length=300)
     code = models.CharField(max_length=100, db_index=True)
@@ -109,15 +110,15 @@ class CostCenter(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "cost_center"
 
 
 class Unions(models.Model):
-    """ Sindicatos 
-    """
+    """Sindicatos"""
+
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     name = models.CharField(max_length=300)
     code = models.CharField(max_length=100, db_index=True)
@@ -129,15 +130,15 @@ class Unions(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "unions"
 
 
 class AccountingAccount(models.Model):
-    """ Cuenta Contable
-    """
+    """Cuenta Contable"""
+
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     name = models.CharField(max_length=300)
     code = models.CharField(max_length=100, db_index=True)
@@ -145,7 +146,7 @@ class AccountingAccount(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "accounting_account"
@@ -167,7 +168,7 @@ class Sucursal(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "sucursal"

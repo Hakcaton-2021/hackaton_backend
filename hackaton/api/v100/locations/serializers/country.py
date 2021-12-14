@@ -65,10 +65,7 @@ class UpdateSerializer(serializers.ModelSerializer):
         same_name = instance.name == data["name"]
         error_handler = ErrorHandler()
 
-        if (
-            country_services.get_country_by_name(name=data["name"])
-            and not same_name
-        ):
+        if country_services.get_country_by_name(name=data["name"]) and not same_name:
             error_handler.handle_error(
                 field_name="name",
                 error="Ya existe un pais con este nombre",
