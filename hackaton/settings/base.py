@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "hackaton.apps.business",
     "hackaton.apps.locations",
     "hackaton.apps.users",
+    "hackaton.apps.central",
+    "hackaton.apps.forms",
 ]
 
 REST_FRAMEWORK = {
