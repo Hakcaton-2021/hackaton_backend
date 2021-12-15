@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-0vd(!slt-!40w^w2gvwmp7cy^sun1zx^18s44(%)_@m3xb52@2"
 
+URL = "http://127.0.0.1:8000"
 
 # Application definition
 
@@ -125,3 +126,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True 
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "testing.development.noreply@gmail.com"
+EMAIL_HOST_PASSWORD = "testing123*"
+EMAIL_PORT = "587"
