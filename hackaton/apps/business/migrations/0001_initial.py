@@ -9,164 +9,296 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('locations', '0001_initial'),
-        ('forms', '0001_initial'),
-        ('central', '0001_initial'),
+        ("locations", "0001_initial"),
+        ("forms", "0001_initial"),
+        ("central", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('business_rut', models.CharField(db_index=True, max_length=100)),
-                ('business_name', models.CharField(max_length=300)),
-                ('business_giro', models.CharField(max_length=600)),
-                ('business_direction', models.CharField(max_length=600)),
-                ('business_phone', models.CharField(max_length=50)),
-                ('representative_name', models.CharField(max_length=300)),
-                ('representative_rut', models.CharField(db_index=True, max_length=100)),
-                ('representative_email', models.EmailField(db_index=True, max_length=250)),
-                ('billing_rut', models.CharField(db_index=True, max_length=100)),
-                ('mutual_amount', models.FloatField(default=0)),
-                ('parent', models.IntegerField(db_index=True, default=None, null=True)),
-                ('checking_account', models.IntegerField(db_index=True, default=None, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('checking_bank', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='central.bank')),
-                ('country', models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='locations.country')),
-                ('form', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='forms.forms')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("business_rut", models.CharField(db_index=True, max_length=100)),
+                ("business_name", models.CharField(max_length=300)),
+                ("business_giro", models.CharField(max_length=600)),
+                ("business_direction", models.CharField(max_length=600)),
+                ("business_phone", models.CharField(max_length=50)),
+                ("representative_name", models.CharField(max_length=300)),
+                ("representative_rut", models.CharField(db_index=True, max_length=100)),
+                (
+                    "representative_email",
+                    models.EmailField(db_index=True, max_length=250),
+                ),
+                ("billing_rut", models.CharField(db_index=True, max_length=100)),
+                ("mutual_amount", models.FloatField(default=0)),
+                ("parent", models.IntegerField(db_index=True, default=None, null=True)),
+                (
+                    "checking_account",
+                    models.IntegerField(db_index=True, default=None, null=True),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "checking_bank",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="central.bank"
+                    ),
+                ),
+                (
+                    "country",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="locations.country",
+                    ),
+                ),
+                (
+                    "form",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="forms.forms"
+                    ),
+                ),
             ],
             options={
-                'db_table': 'company',
+                "db_table": "company",
             },
         ),
         migrations.CreateModel(
-            name='CompanyType',
+            name="CompanyType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('name', models.CharField(max_length=300)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("name", models.CharField(max_length=300)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
             ],
             options={
-                'db_table': 'company_type',
+                "db_table": "company_type",
             },
         ),
         migrations.CreateModel(
-            name='Gratification',
+            name="Gratification",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('name', models.CharField(max_length=300)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("name", models.CharField(max_length=300)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
             ],
             options={
-                'db_table': 'gratification',
+                "db_table": "gratification",
             },
         ),
         migrations.CreateModel(
-            name='PaymentMobilization',
+            name="PaymentMobilization",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('name', models.CharField(max_length=300)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("name", models.CharField(max_length=300)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
             ],
             options={
-                'db_table': 'payment_mobilization',
+                "db_table": "payment_mobilization",
             },
         ),
         migrations.CreateModel(
-            name='Unions',
+            name="Unions",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=300)),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('rut', models.CharField(db_index=True, max_length=100)),
-                ('active', models.BooleanField(db_index=True, default=True)),
-                ('exempt_amount', models.FloatField(default=0)),
-                ('exempt_amount_currency', models.CharField(db_index=True, max_length=10)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.company')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=300)),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("rut", models.CharField(db_index=True, max_length=100)),
+                ("active", models.BooleanField(db_index=True, default=True)),
+                ("exempt_amount", models.FloatField(default=0)),
+                (
+                    "exempt_amount_currency",
+                    models.CharField(db_index=True, max_length=10),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="business.company",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'unions',
+                "db_table": "unions",
             },
         ),
         migrations.CreateModel(
-            name='Sucursal',
+            name="Sucursal",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=300)),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('number', models.IntegerField(db_index=True, default=0, null=True)),
-                ('department', models.CharField(max_length=300)),
-                ('city', models.CharField(max_length=100)),
-                ('range', models.CharField(max_length=200)),
-                ('active', models.BooleanField(db_index=True, default=True)),
-                ('exempt_amount', models.FloatField(default=0)),
-                ('exempt_amount_currency', models.CharField(db_index=True, max_length=10)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.company')),
-                ('comuna', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='locations.comuna')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=300)),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("number", models.IntegerField(db_index=True, default=0, null=True)),
+                ("department", models.CharField(max_length=300)),
+                ("city", models.CharField(max_length=100)),
+                ("range", models.CharField(max_length=200)),
+                ("active", models.BooleanField(db_index=True, default=True)),
+                ("exempt_amount", models.FloatField(default=0)),
+                (
+                    "exempt_amount_currency",
+                    models.CharField(db_index=True, max_length=10),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="business.company",
+                    ),
+                ),
+                (
+                    "comuna",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="locations.comuna",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'sucursal',
+                "db_table": "sucursal",
             },
         ),
         migrations.CreateModel(
-            name='CostCenter',
+            name="CostCenter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=300)),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('parent', models.IntegerField(db_index=True, default=None, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.company')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=300)),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("parent", models.IntegerField(db_index=True, default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="business.company",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'cost_center',
+                "db_table": "cost_center",
             },
         ),
         migrations.AddField(
-            model_name='company',
-            name='gratification',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.gratification'),
+            model_name="company",
+            name="gratification",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="business.gratification"
+            ),
         ),
         migrations.AddField(
-            model_name='company',
-            name='mutual',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='central.mutual'),
+            model_name="company",
+            name="mutual",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="central.mutual"
+            ),
         ),
         migrations.AddField(
-            model_name='company',
-            name='payment_mobilization',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.paymentmobilization'),
+            model_name="company",
+            name="payment_mobilization",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="business.paymentmobilization",
+            ),
         ),
         migrations.AddField(
-            model_name='company',
-            name='type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.companytype'),
+            model_name="company",
+            name="type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="business.companytype"
+            ),
         ),
         migrations.CreateModel(
-            name='AccountingAccount',
+            name="AccountingAccount",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=300)),
-                ('code', models.CharField(db_index=True, max_length=100)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='business.company')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=300)),
+                ("code", models.CharField(db_index=True, max_length=100)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="business.company",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'accounting_account',
+                "db_table": "accounting_account",
             },
         ),
     ]

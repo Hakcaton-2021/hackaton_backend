@@ -3,8 +3,8 @@ from hackaton.apps.locations.models import Country
 
 
 class Bank(models.Model):
-    """ Bancos 
-    """
+    """Bancos"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
@@ -12,15 +12,15 @@ class Bank(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "bank"
 
 
 class CompensationBox(models.Model):
-    """ Cajas de Compensación 
-    """
+    """Cajas de Compensación"""
+
     code = models.CharField(max_length=100, db_index=True)
     name = models.CharField(max_length=300)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
@@ -28,7 +28,7 @@ class CompensationBox(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "compensation_box"
@@ -42,7 +42,7 @@ class Mutual(models.Model):
     updated_at = models.DateTimeField(null=True, auto_now=True)
 
     def __str__(self):
-        return f'{self.code}: {self.name}'
+        return f"{self.code}: {self.name}"
 
     class Meta:
         db_table = "mutual"

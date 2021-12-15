@@ -1,11 +1,11 @@
 from rest_framework import routers
 
 # Views
-# from chileboleta.api.v100.branchs.views.branch import BranchViewSet -> Ejemplo
+from hackaton.api.v100.locations.views.country import CountryViewset
 
 # Endpoint
 router = routers.SimpleRouter()
-# router.register(r"v100/business/business", BusinessViewset, basename="v100-business") -> Ejemplo
+router.register(r"v100/locations/country", CountryViewset, basename="v100-locations")
 
 
 urlpatterns = router.urls
