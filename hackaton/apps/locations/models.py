@@ -23,6 +23,9 @@ class Comuna(models.Model):
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}"
+    class Meta:
+        db_table = "comuna"

@@ -7,7 +7,7 @@ class View(object):
 
     def forms(self, key="forms"):
         response = {'active': key}
-        template = 'base.html'
+        template = 'forms.html'
         context = {}
         response.update({'context': context})
         return render(self, template, response)
