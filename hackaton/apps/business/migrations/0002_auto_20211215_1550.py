@@ -10,7 +10,7 @@ def init(apps, schema_editor):
     country = Country.objects.filter(code=country_code).first()
     payment_mobilization = [
         {"code": "fija", "name": "Fija a todo evento"},
-        {"code": "fija", "name": "Descuenta vacaciones y ausentismo"},
+        {"code": "vacaciones", "name": "Descuenta vacaciones y ausentismo"},
         {"code": "licencias", "name": "Descuenta solo licencias"},
     ]
     
