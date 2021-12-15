@@ -162,7 +162,7 @@ Thumbs.db
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 
-/static/admin*
-/static/ckeditor
-/static/colorfield
-/static/rest_framework
+*/static/admin*
+*/static/ckeditor
+*/static/colorfield
+*/static/rest_framework

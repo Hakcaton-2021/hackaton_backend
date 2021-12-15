@@ -3,10 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from hackaton.frontend.views import View
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(("hackaton.api.urls", "api"), namespace="api")),
-]
+    path(r'forms', View.forms, name='forms'),
+] + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
