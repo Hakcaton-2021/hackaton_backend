@@ -9,24 +9,20 @@ def init(apps, schema_editor):
     countries = [
         {"code": "CL", "name": "Chile"},
         {"code": "PE", "name": "Perú"},
-        ]
+    ]
     for country in countries:
-        obj = Country.objects.filter(
-            code=country.get("code")).first()
+        obj = Country.objects.filter(code=country.get("code")).first()
         if not obj:
-            obj = Country(code=country.get("code"), 
-                          name=country.get("name"))
+            obj = Country(code=country.get("code"), name=country.get("name"))
         else:
             obj.name = country.get("name")
         obj.save()
-            
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('locations', '0002_country_is_active'),
+        ("locations", "0002_country_is_active"),
     ]
 
-    operations = [
-        migrations.RunPython(init)
-    ]
+    operations = [migrations.RunPython(init)]
