@@ -40,7 +40,7 @@ def init(apps, schema_editor):
         {"code": "DEUTS", "name": "DEUTSCHE BANK"},
         {"code": "HSBC", "name": "HSBC"},
         {"code": "ITAU", "name": "ITAÚ"},
-        {"code": "JP MORGAN", "name": "JP MORGAN"},
+        {"code": "MORGAN", "name": "JP MORGAN"},
         {"code": "SANTAN", "name": "SANTANDER"},
         {"code": "SCOTI", "name": "SCOTIABANK"},
         {"code": "SECURI", "name": "SECURITY"},
