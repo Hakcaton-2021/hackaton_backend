@@ -16,6 +16,8 @@ class Bank(models.Model):
 
     class Meta:
         db_table = "bank"
+        verbose_name = "Banco"
+        verbose_name_plural = "Bancos"
 
 
 class CompensationBox(models.Model):
@@ -32,6 +34,8 @@ class CompensationBox(models.Model):
 
     class Meta:
         db_table = "compensation_box"
+        verbose_name = "Caja de Compensación"
+        verbose_name_plural = "Cajas de Compensación"
 
 
 class Mutual(models.Model):
@@ -46,3 +50,5 @@ class Mutual(models.Model):
 
     class Meta:
         db_table = "mutual"
+        verbose_name = "Mutual"
+        verbose_name_plural = "Mutuales"
