@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
+<link href="{% static '/css/form-validation.css' %}" rel="stylesheet">
 {% endblock %}
 {% block js %}
+<script src="{% static '/js/form-validation.js' %}" crossorigin="anonymous"></script>
 {% endblock %}
 {% block content %}
 <main>
