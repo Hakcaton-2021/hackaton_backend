@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from hackaton.apps.forms.models import Forms
 
 class FormsAdmin(admin.ModelAdmin):
