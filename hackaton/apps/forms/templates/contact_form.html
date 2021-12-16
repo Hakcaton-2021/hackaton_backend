@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbars/">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="{% static '/css/navbar.css' %}" rel="stylesheet">
+    <link href="{% static '/css/form-validation.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <title>Document</title>
+
+    <style type="text/css">
+        .tramsform-botton {
+            width: 100%;
+            margin-top: 5%;
+        }
+        
+        .spinner-size {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary" aria-label="Fourth navbar example">
+        <div class="container-fluid">
+            <span class="navbar-brand">Formulario de contacto inicial</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <form class="g-3 needs-validation" novalidate>
+                <div class="offset-md-4 col-md-4">
+                    <label for="name" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Ej: Carlos" minlength="3" required>
+                    <div class="invalid-feedback">
+                        El campo no puede estar vacio.
+                    </div>
+                </div>
+                <div class="offset-md-4 col-md-4 mt-2">
+                    <label for="email" class="form-label">Correo Electronico</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Ej: example@example.com" required>
+                    <div class="invalid-feedback">
+                        El campo no puede estar vacio.
+                    </div>
+                </div>
+                <div class="offset-md-4 col-md-4 mt-2">
+                    <label for="business_name " class="form-label ">Razón social</label>
+                    <input type="text " class="form-control " name="business_name " id="business_name" placeholder="Ej: Minería Montiel" minlength="3" required>
+                    <div class="invalid-feedback ">
+                        El campo no puede estar vacio.
+                    </div>
+                </div>
+                <div class="offset-md-4 col-md-4 ">
+                    <button class="btn btn-primary tramsform-botton" type="submit">Enviar</button>
+                    <div class="text-center">
+                        <div class="spinner-border text-primary mt-3 spinner-size" style="display: none;" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static '/js/bootstrap.bundle.min.js' %} " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
+    <script src="{% static '/js/form-validation.js' %} " crossorigin="anonymous "></script>
+    <script>
+        $(function() {
+            $("button").click(function(event) {
+                let name = $("#name").val()
+                let email = $("#email").val()
+                let business_name = $("#business_name").val()
+                if (name != '' && email != '' && business_name != '') {
+                    event.preventDefault()
+                    let url = '{{base_url}}' + '/contact/create/'
+                    console.log(url)
+                    let dataSend = {
+                        "name": $("#name").val(),
+                        "email": $("#email").val(),
+                        "business_name": $("#business_name").val()
+                    };
+
+                    $("button").attr('disabled', true);
+                    $("#name").attr('disabled', true);
+                    $("#email").attr('disabled', true);
+                    $("#business_name").attr('disabled', true);
+                    $("div.spinner-border").show();
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: dataSend,
+                        dataType: 'JSON',
+                        success: function(data) {
+                            $("div.spinner-border").hide();
+                            $("button").attr('disabled', false);
+                            setTimeout(function() {
+                                reloadPage()
+                            }, 500);
+
+
+                        },
+                        error: function(res) {
+                            console.log(res)
+                            $("div.spinner-border").hide();
+                            $("button").attr('disabled', false);
+                            $("#name").attr('disabled', false);
+                            $("#email").attr('disabled', false);
+                            ("#business_name").attr('disabled', false);
+                            alert('Hubo un error porfavor intente nuevamente')
+                        }
+                    })
+                }
+            });
+        });
+
+        function reloadPage() {
+            alert('El formulario se ha envio correctamente')
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>
