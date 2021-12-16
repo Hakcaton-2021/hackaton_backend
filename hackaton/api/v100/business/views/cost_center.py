@@ -8,76 +8,61 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 
-from hackaton.api.v100.business.serializers.company import (
+from hackaton.api.v100.business.serializers.cost_center import (
     CreateSerializer,
     ListSerializer,
     UpdateSerializer,
 )
-from hackaton.apps.business.services import company as company_services
+from hackaton.apps.business.services import cost_center as cost_center_services
 from hackaton.utils.lib.constants import DATA_NOT_FOUND, SERVER_ERROR
 
-class CompanyViewset(viewsets.ViewSet):
+class CostCenterViewset(viewsets.ViewSet):
 
     permission_classes = [AllowAny]
-    # GET: api/v100/locations/country/
+    # GET: api/v100/locations/costcenter/
     def list(self, request):
-        company = company_services.get_all_companies()
-        serializer = ListSerializer(company, many=True)
+        cost_center = cost_center_services.get_all_cost_center()
+        serializer = ListSerializer(cost_center, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # POST: api/v100/locations/country/
+    # POST: api/v100/locations/costcenter/
     def create(self, request):
         serializer = CreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
-                data={"message": "Empresa creada con exito"}, status=status.HTTP_200_OK
+                data={"message": "Centro de costos creado con exito"}, status=status.HTTP_200_OK
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # GET: api/v100/business/company/<pk>/
+    # GET: api/v100/business/costcenter/<pk>/
     def retrieve(self, request, pk):
         if not pk:
             return Response(DATA_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
-        company = company_services.get_company_by_pk(pk=pk)
-        if not company:
+        cost_center = cost_center_services.get_cost_center_by_pk(pk=pk)
+        if not cost_center:
             return Response(DATA_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
-        serializer = ListSerializer(company)
+        serializer = ListSerializer(cost_center)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # PUT: api/v100/business/company/<pk>/
+    # PUT: api/v100/business/costcenter/<pk>/
     def update(self, request, pk):
         if not pk:
             return Response(DATA_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
-        company = company_services.get_company_by_pk(pk=pk)
-        if not company:
+        cost_center = cost_center_services.get_cost_center_by_pk(pk=pk)
+        if not cost_center:
             return Response(DATA_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
-        serializer = UpdateSerializer(company, data=request.data)
+        serializer = UpdateSerializer(cost_center, data=request.data)
         if serializer.is_valid():
-            serializer.save(update_fields=[
-                "business_rut",
-                "business_name",
-                "business_giro",
-                "business_direction",
-                "business_phone",
-                "representative_name",
-                "representative_rut",
-                "representative_email",
-                "billing_rut",
-                "type",
-                "form",
-                "gratification",
-                "country",
-                "mutual",
-                "mutual_amount",
+            serializer.save(update_fields=[  
+                "company",
+                "name",
+                "code",
                 "parent",
-                "checking_account",
-                "checking_bank",
-                "payment_mobilization",
                 "updated_at",
             ])
             return Response(
-                data={"message": "Empresa actualizada con exito"},
+                data={"message": "Centro de costos actualizado con exito"},
                 status=status.HTTP_200_OK,
             )
         return Response(SERVER_ERROR, status=status.HTTP_400_BAD_REQUEST)
