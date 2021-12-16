@@ -121,38 +121,40 @@ class CreateSerializer(serializers.ModelSerializer):
 
 class UpdateSerializer(serializers.ModelSerializer):
     business_rut = serializers.CharField(max_length=100, required=True, )
-    business_name = serializers.CharField(max_length=300, required=False)
-    business_giro = serializers.CharField(max_length=600, required=False)
-    business_direction = serializers.CharField(max_length=600, required=False)
-    business_phone = serializers.CharField(max_length=50, required=False)
-    representative_name = serializers.CharField(max_length=300, required=False)
-    representative_rut = serializers.CharField(max_length=100, required=False)
-    representative_email = serializers.CharField(max_length=250, required=False)
-    billing_rut = serializers.CharField(max_length=100, required=False)
+    business_name = serializers.CharField(max_length=300, required=False, allow_blank=True)
+    business_giro = serializers.CharField(max_length=600, required=False, allow_blank=True)
+    business_direction = serializers.CharField(max_length=600, required=False, allow_blank=True)
+    business_phone = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    representative_name = serializers.CharField(max_length=300, required=False, allow_blank=True)
+    representative_rut = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    representative_email = serializers.CharField(max_length=250, required=False, allow_blank=True)
+    billing_rut = serializers.CharField(max_length=100, required=False, allow_blank=True)
     type = serializers.PrimaryKeyRelatedField(
-        queryset=CompanyType.objects.all(), required=False
+        queryset=CompanyType.objects.all(), required=False, allow_null=True
     )
     form = serializers.PrimaryKeyRelatedField(
-        queryset=Forms.objects.all(), required=False
+        queryset=Forms.objects.all(), required=False, allow_null=True
     )
     gratification = serializers.PrimaryKeyRelatedField(
-        queryset=Gratification.objects.all(), required=False
+        queryset=Gratification.objects.all(), required=False, allow_null=True
     )
     country = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(), required=False
+        queryset=Country.objects.all(), required=False, allow_null=True
     )
     mutual = serializers.PrimaryKeyRelatedField(
-        queryset=Mutual.objects.all(), required=False
+        queryset=Mutual.objects.all(), required=False, allow_null=True
     )
-    mutual_amount = serializers.FloatField(required=False, min_value=0)
-    parent = serializers.IntegerField(required=False)
-    checking_account = serializers.IntegerField(required=False)
+    mutual_amount = serializers.FloatField(required=False, min_value=0.0)
+    parent = serializers.IntegerField(required=False, min_value=0)
+    checking_account = serializers.IntegerField(required=False, min_value=0)
     checking_bank  = serializers.PrimaryKeyRelatedField(
-        queryset=Bank.objects.all(), required=False
+        queryset=Bank.objects.all(), required=False, allow_null=True
     )
     payment_mobilization = serializers.PrimaryKeyRelatedField(
-        queryset=Bank.objects.all(), required=False
+        queryset=PaymentMobilization.objects.all(), required=False, allow_null=True
     )
+   
+
 
     class Meta:
         model = Company
