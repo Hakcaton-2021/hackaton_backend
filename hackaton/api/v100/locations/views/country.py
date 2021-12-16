@@ -18,7 +18,8 @@ from hackaton.utils.lib.constants import DATA_NOT_FOUND, PERMISSIONS_ERROR, SERV
 
 
 class CountryViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+
 
     # GET: api/v100/locations/country/
     def list(self, request):

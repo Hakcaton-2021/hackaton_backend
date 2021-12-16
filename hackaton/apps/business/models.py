@@ -18,6 +18,8 @@ class PaymentMobilization(models.Model):
 
     class Meta:
         db_table = "payment_mobilization"
+        verbose_name = "Pago Movilización y Colación"
+        verbose_name_plural = "Pagos Movilización"
 
 
 class Gratification(models.Model):
@@ -33,6 +35,9 @@ class Gratification(models.Model):
 
     class Meta:
         db_table = "gratification"
+        verbose_name = "Pago Gratificación"
+        verbose_name_plural = "Pagos Gratificación"
+
 
 
 class CompanyType(models.Model):
@@ -48,6 +53,9 @@ class CompanyType(models.Model):
 
     class Meta:
         db_table = "company_type"
+        verbose_name = "Tipo de Compañia"
+        verbose_name_plural = "Tipos de Compañias"
+
 
 
 class Company(models.Model):
@@ -82,6 +90,9 @@ class Company(models.Model):
 
     class Meta:
         db_table = "company"
+        verbose_name = "Compañia"
+        verbose_name_plural = "Compañias"
+
 
 
 class CostCenter(models.Model):
@@ -99,6 +110,9 @@ class CostCenter(models.Model):
 
     class Meta:
         db_table = "cost_center"
+        verbose_name = "Centro de Costo"
+        verbose_name_plural = "Centros de Costos"
+
 
 
 class Unions(models.Model):
@@ -119,6 +133,9 @@ class Unions(models.Model):
 
     class Meta:
         db_table = "unions"
+        verbose_name = "Sindicato"
+        verbose_name_plural = "Sindicatos"
+
 
 
 class AccountingAccount(models.Model):
@@ -135,6 +152,8 @@ class AccountingAccount(models.Model):
 
     class Meta:
         db_table = "accounting_account"
+        verbose_name = "Cuenta Contable"
+        verbose_name_plural = "Cuentas Contables"
 
 
 class Sucursal(models.Model):
@@ -157,3 +176,6 @@ class Sucursal(models.Model):
 
     class Meta:
         db_table = "sucursal"
+        verbose_name = "Sucursal"
+        verbose_name_plural = "Sucursales"
+

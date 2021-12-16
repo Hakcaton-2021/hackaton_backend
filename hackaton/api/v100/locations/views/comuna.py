@@ -18,7 +18,7 @@ from hackaton.utils.lib.constants import DATA_NOT_FOUND, PERMISSIONS_ERROR, SERV
 
 
 class ComunaViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     # GET: api/v100/locations/comuna/
     def list(self, request):

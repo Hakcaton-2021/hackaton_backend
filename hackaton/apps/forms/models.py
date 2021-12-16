@@ -15,3 +15,5 @@ class Forms(models.Model):
 
     class Meta:
         db_table = "forms"
+        verbose_name = "Formulario"
+        verbose_name_plural = "Formularios"
