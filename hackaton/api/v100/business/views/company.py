@@ -16,22 +16,24 @@ from hackaton.api.v100.business.serializers.company import (
 from hackaton.apps.business.services import company as company_services
 from hackaton.utils.lib.constants import DATA_NOT_FOUND, SERVER_ERROR
 
+
 class CompanyViewset(viewsets.ViewSet):
 
     permission_classes = [AllowAny]
-    # GET: api/v100/locations/country/
+    # GET
+
     def list(self, request):
         company = company_services.get_all_companies()
         serializer = ListSerializer(company, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # POST: api/v100/locations/country/
+    # POST
     def create(self, request):
         serializer = CreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
-                data={"message": "Empresa creada con exito"}, status=status.HTTP_200_OK
+                data={"message": "Razón Social creada correctamente."}, status=status.HTTP_200_OK
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -81,4 +83,3 @@ class CompanyViewset(viewsets.ViewSet):
                 status=status.HTTP_200_OK,
             )
         return Response(SERVER_ERROR, status=status.HTTP_400_BAD_REQUEST)
-

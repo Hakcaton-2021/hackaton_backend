@@ -1,6 +1,6 @@
 from django.db import models
 
-from hackaton.apps.central.models import Bank, Mutual
+from hackaton.apps.central.models import Bank, CompensationBox, Mutual
 from hackaton.apps.forms.models import Forms
 from hackaton.apps.locations.models import Comuna, Country
 
@@ -62,25 +62,27 @@ class Company(models.Model):
     """Razón Social"""
 
     business_rut = models.CharField(max_length=100, db_index=True)
-    business_name = models.CharField(max_length=300)
-    business_giro = models.CharField(max_length=600)
-    business_direction = models.CharField(max_length=600)
-    business_phone = models.CharField(max_length=50)
-    representative_name = models.CharField(max_length=300)
-    representative_rut = models.CharField(max_length=100, db_index=True)
-    representative_email = models.EmailField(max_length=250, db_index=True)
-    billing_rut = models.CharField(max_length=100, db_index=True)
-    type = models.ForeignKey(CompanyType, on_delete=models.PROTECT)
-    form = models.ForeignKey(Forms, on_delete=models.PROTECT)
-    gratification = models.ForeignKey(Gratification, on_delete=models.PROTECT)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT, default=1)
-    mutual = models.ForeignKey(Mutual, on_delete=models.PROTECT)
-    mutual_amount = models.FloatField(default=0)
+    business_name = models.CharField(max_length=300, null=True)
+    business_giro = models.CharField(max_length=600, null=True)
+    business_direction = models.CharField(max_length=600, null=True)
+    business_phone = models.CharField(max_length=50, null=True)
+    representative_name = models.CharField(max_length=300, null=True)
+    representative_rut = models.CharField(max_length=100, db_index=True, null=True)
+    representative_email = models.EmailField(max_length=250, db_index=True, null=True)
+    billing_rut = models.CharField(max_length=100, db_index=True, null=True)
+    type = models.ForeignKey(CompanyType, on_delete=models.PROTECT, null=True)
+    form = models.ForeignKey(Forms, on_delete=models.PROTECT, null=True)
+    gratification = models.ForeignKey(Gratification, on_delete=models.PROTECT, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, default=None, null=True)
+    comuna = models.ForeignKey(Comuna, on_delete=models.PROTECT, default=None, null=True)
+    compensation_box = models.ForeignKey(CompensationBox, on_delete=models.PROTECT, null=True)
+    mutual = models.ForeignKey(Mutual, on_delete=models.PROTECT, null=True)
+    mutual_amount = models.FloatField(default=None, null=True)
     parent = models.IntegerField(default=None, db_index=True, null=True)
     checking_account = models.IntegerField(default=None, db_index=True, null=True)
-    checking_bank = models.ForeignKey(Bank, on_delete=models.PROTECT)
+    checking_bank = models.ForeignKey(Bank, on_delete=models.PROTECT, null=True)
     payment_mobilization = models.ForeignKey(
-        PaymentMobilization, on_delete=models.PROTECT
+        PaymentMobilization, on_delete=models.PROTECT, null=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)

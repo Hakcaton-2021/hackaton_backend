@@ -33,7 +33,7 @@
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary" aria-label="Fourth navbar example">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Registro Inicial</a>
+          <a class="navbar-brand" href="#"><i class="fas fa-infinity"></i> Registro Inicial</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -46,6 +46,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Resumen</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Estado de implementación</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -56,12 +59,8 @@
         <div>
         <div class="bg-light p-5 rounded">
             <div class="col-sm-8 mx-auto">
-            <h1>Navbar examples</h1>
-            <p>This example is a quick exercise to illustrate how the navbar and its contents work. Some navbars extend the width of the viewport, others are confined within a <code>.container</code>. For positioning of navbars, checkout the <a href="/docs/5.1/examples/navbar-static/">top</a> and <a href="/docs/5.1/examples/navbar-fixed/">fixed top</a> examples.</p>
-            <p>At the smallest breakpoint, the collapse plugin is used to hide the links and show a menu button to toggle the collapsed content.</p>
-            <p>
-                <a class="btn btn-primary" href="/docs/5.1/components/navbar/" role="button">View navbar docs &raquo;</a>
-            </p>
+            <h1></h1>
+            <p></p>
             </div>
         </div>
         </div>
@@ -69,7 +68,9 @@
     </main>
     {% endblock %}
 </div>
+    <script src="{% static '/js/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
     <script src="{% static '/js/bootstrap.bundle.min.js' %}" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="{% static '/js/fontawesome.js' %}" crossorigin="anonymous"></script>
     {% block js %}{% endblock %}
   </body>
 </html>
