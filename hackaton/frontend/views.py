@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from hackaton.apps.business.models import Company, CompanyType, Gratification, PaymentMobilization
+from hackaton.apps.business.models import AccountingAccount, Company, CompanyType, CostCenter, Gratification, PaymentMobilization, Unions
 from hackaton.apps.central.models import Bank, CompensationBox, Mutual
 from hackaton.apps.locations.models import Comuna
 
@@ -14,6 +14,9 @@ class View(object):
         response = {'active': key}
         template = 'forms.html'
         context = {"company": Company.objects.all(),
+                   "cost_center": CostCenter.objects.all(),
+                   "unions": Unions.objects.all(),
+                   "accounting_account": AccountingAccount.objects.all(),
                    "type": CompanyType.objects.all(),
                    "comuna": Comuna.objects.filter(
                        country__code=country_code_active).order_by("name").all(),

@@ -3,7 +3,7 @@ from hackaton.apps.forms.views import FormApiView, ContactFormView
 
 urlpatterns = [
     path('create/', FormApiView.as_view(), name="create-form"),
-    path('read/', ContactFormView.as_view(), name="read-form"),
+    path('', ContactFormView.as_view(), name="read-form"),
 ]
 
 

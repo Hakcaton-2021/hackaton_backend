@@ -31,7 +31,7 @@ class CostCenterViewset(viewsets.ViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                data={"message": "Centro de costos creado con exito"}, status=status.HTTP_200_OK
+                data={"message": "Centro de Costo creado correctamente."}, status=status.HTTP_200_OK
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

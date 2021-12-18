@@ -1,6 +1,7 @@
 from hackaton.apps.forms.notifications import Notifications
 from hackaton.apps.forms.models import Forms
 from hackaton.settings.base import URL
+from rest_framework.exceptions import ValidationError
 
 class  CreateFormCase:
     
@@ -20,6 +21,6 @@ class  CreateFormCase:
     
     def validation(self):
         if Forms.objects.filter(email=self.data["email"]).exists():
-            raise ValueError("El correo electronico ya esta registrado")
+            raise ValidationError("El correo electronico ya esta registrado")
     class ValidationError(Exception):
         pass

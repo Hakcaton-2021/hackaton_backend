@@ -6,36 +6,80 @@
 {% block js %}
 <script src="{% static '/js/form-validation.js' %}" crossorigin="anonymous"></script>
 <script>
-    $("form").submit(function(event){
-        console.log($(this).serializeArray());
-        event.preventDefault();
-        $.ajax({
-            url: "/api/business/company/",
-            type: 'POST',
-            data: $(this).serialize(),
-            dataType: 'JSON',
-            beforeSend: function () {
-                $('#respuesta').html('<i class="fas fa-spinner fa-spin"></i> Validando y guardando...');
-            },
-            success: function (data) {
-                $('#respuesta').removeClass("text-warning");
-                $('#respuesta').addClass("text-success");
-                console.log(data);
-                $('#respuesta').html('Razón Social guardada correctamente.');
-                $('#company_list').append(
-                    '<li class="list-group-item d-flex justify-content-between lh-sm"><div><h6 class="my-0">'+ $("#business_name").val()+' <span class="text-muted">(RUT: '+ $("#business_rut").val()+')</span></h6><small class="text-muted"></small></div><span class="text-muted"><a href="#"><i class="fas fa-edit" aria-hidden="true"></i></a></span></li>');
-                $('#company_len').html(parseInt($('#company_len').html()) + 1);
-                
-                $("#razon_social").trigger("reset");
-                $("#business_rut").val(" ");
-                }, // success function
-            error: function (event){
-                $('#respuesta').html('Compruebe los campos requeridos.');
-                $('#respuesta').addClass("text-warning");
-                $('#respuesta').removeClass("text-success");
-            }
-        }); // ajax
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    var validation = false;
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('.respuesta').addClass("text-warning");
+            $('.respuesta').html('Compruebe los campos requeridos.');
+            validation = false;
+          } else {
+            validation = true;
+            event.preventDefault();
+            form.classList.add('was-validated')
+            
+          }
+        }, false)
+      });
+    
+    validate_parent("#show_parent_cc", ".parent_cc");
+    $('input[type=checkbox]').on('change', function() {
+        validate_parent("#show_parent_cc", ".parent_cc");
     });
+    function validate_parent(checked, input){
+        if ($(checked).is(":checked")){
+            $(input).show("slow");
+        } else {
+            $(input).hide("faster");
+            $("#parent").val("0");
+        }
+    }
+      
+    guardar();
+
+    function guardar(){
+        $("form").submit(function(event){
+            console.log($(this).serialize());
+            if(validation){
+                $.ajax({
+                    url: $(this).data("url"),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        $('.respuesta').html('<i class="fas fa-spinner fa-spin"></i> Validando y guardando...');
+                    },
+                    success: function (data) {
+                        $('.respuesta').removeClass("text-warning");
+                        $('.respuesta').addClass("text-success");
+                        console.log(data);
+                        $('.respuesta').html('<i class="fas fa-check-square"></i> '+ data.message ? data.message : "Creado correctamente.");
+                        $('#company_list').append(
+                            '<li class="list-group-item d-flex justify-content-between lh-sm"><div><h6 class="my-0">'+ $("#business_name").val()+' <span class="text-muted">(RUT: '+ $("#business_rut").val()+')</span></h6><small class="text-muted"></small></div><span class="text-muted"><a href="#"><i class="fas fa-edit" aria-hidden="true"></i></a></span></li>');
+                        $('#company_len').html(parseInt($('#company_len').html()) + 1);
+                        
+                        $("#razon_social").trigger("reset");
+                        }, // success function
+                    error: function (event){
+                        console.log(event);
+                        $('.respuesta').html('Ocurrio un problema al intentar guardar. ');
+                        if(event.responseJSON){
+                            $('.respuesta').append(event.responseText);
+                        }
+                        $('.respuesta').addClass("text-warning");
+                        $('.respuesta').removeClass("text-success");
+                    }
+                }); // ajax
+            }
+        });
+    };
+    
 
 </script>
 {% endblock %}
@@ -76,15 +120,15 @@
         
             <div class="py-5 text-center">
                 <h2>Ingrese su Razón Social</h2>
-                <p class="lead text-muted">Puede registrar más de una si es necesario.</p>
+                <p class="lead text-muted">Puede registrar más de una si es necesario</p>
                 <hr class="my-4">
             </div>
       
         
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">Datos de su Razón Social <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde.</u></small></p></h4>
+              <h4 class="mb-3">Datos de su Razón Social <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde</u></small></p></h4>
               
-              <form class="needs-validation" novalidate id="razon_social">
+              <form class="needs-validation" novalidate id="razon_social" data-url="/api/business/company/">
                 <div class="row g-3">
                   <div class="col-sm-6">
                     <label for="business_rut" class="form-label">RUT</label>
@@ -95,7 +139,7 @@
                   </div>
                   <div class="col-md-6">
                     <label for="type" class="form-label">Tipo empresa</label>
-                    <select class="form-select" name="type" id="type">
+                    <select class="form-select" name="type" id="type" required>
                       <option value=""> seleccionar...</option>
                       {% for type in context.type %}
                       <option value="{{ type.id }}">{{ type.name }}</option>
@@ -106,7 +150,7 @@
                   </div>
                   <div class="col-sm-6">
                     <label for="business_name" class="form-label">Razón Social</label>
-                    <input type="text" class="form-control" name="business_name" id="business_name" placeholder="" value="">
+                    <input type="text" class="form-control" name="business_name" id="business_name" placeholder="" value="" required>
                     <div class="invalid-feedback">
                     </div>
                   </div>
@@ -153,7 +197,7 @@
 
                 <div class="row g-3">
                 <hr class="my-4">
-                <h4 class="mb-3">Otros datos relevantes <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde.</u></small></p></h4>
+                <h4 class="mb-3">Otros datos relevantes <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde</u></small></p></h4>
                   <div class="col-md-6">
                     <label for="comuna" class="form-label">Comuna 
                         <span class="text-muted"><small>(Opcional)</small></span></label>
@@ -203,7 +247,7 @@
 
                 <div class="row g-3">
                     <hr class="my-4">
-                <h4 class="mb-3">Facturación <p class="lead text-muted"><small>Puede guardar sin tener todos los datos ingresados y continuar más tarde.</small></p></h4>
+                <h4 class="mb-3">Facturación <p class="lead text-muted"><small>Puede guardar sin tener todos los datos ingresados y continuar más tarde</small></p></h4>
                   <div class="col-md-6">
                     <label for="checking_bank" class="form-label">Banco pago nómina 
                         <span class="text-muted"><small>(Opcional)</small></span></label>
@@ -254,7 +298,7 @@
                   </div>
       
                 <hr class="my-4">
-                <div id="respuesta" class="text-success">
+                <div class="text-success respuesta">
                 </div>
                 <button class="w-100 btn btn-primary btn-lg" type="submit">Validar y guardar</button>
 
@@ -264,9 +308,279 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="nav-centro-costos" role="tabpanel" aria-labelledby="nav-centro-costos-tab">...</div>
-    <div class="tab-pane fade" id="nav-sindicatos" role="tabpanel" aria-labelledby="nav-sindicatos-tab">...</div>
-    <div class="tab-pane fade" id="nav-cuentas-contables" role="tabpanel" aria-labelledby="nav-cuentas-contables-tab">...</div>
+    <div class="tab-pane fade" id="nav-centro-costos" role="tabpanel" aria-labelledby="nav-centro-costos-tab">
+        
+        <div class="row g-12">
+            <div class="py-2 text-center">
+                <p class="lead text-muted"></p>
+            </div>
+            <div class="col-md-12 col-lg-12">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Ingresados</span>
+                <span id="company_len" class="badge bg-primary rounded-pill">{{ context.cost_center|length }}</span>
+              </h4>
+              <ul id="company_list" class="list-group mb-3">
+                {% for co in context.cost_center %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">{{ co.name }} - {{ co.code }} <span class="text-muted">({{ co.company }})</span></h6>
+                      <small class="text-muted">{{ co.type.name }}</small>
+                    </div>
+                    <span class="text-muted"><a href="#"><i class="fas fa-edit"></i></a></span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+        
+            <div class="py-5 text-center">
+                <h2>Ingrese su Centro de Costo</h2>
+                <p class="lead text-muted">Puede registrar más de uno si es necesario</p>
+                <hr class="my-4">
+            </div>
+      
+        
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">Datos del Centro de Costo <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde</u></small></p></h4>
+              
+              <form class="needs-validation" novalidate id="cost_center"  data-url="/api/business/costcenter/">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="company" class="form-label">Razón Social</label>
+                    <select class="form-select" name="company" id="company" required>
+                      <option value=""> seleccionar...</option>
+                      {% for co in context.company %}
+                      <option value="{{ co.id }}">{{ co.business_name }} ({{ co.business_rut }})</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="code" class="form-label">Código 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="code" id="code" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                 <div class="col-md-6">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="show_parent_cc" name="show_parent_cc">
+                        <label class="form-check-label" for="show_parent_cc">Depende de otro Centro de Costo</label>
+                      </div>
+                    <div class="parent_cc">
+                        <label for="parent" class="form-label">Centro de Costo Principal</label>
+                        <select class="form-select" name="parent" id="parent">
+                        <option value="0"> seleccionar...</option>
+                        {% for co in context.cost_center %}
+                        <option value="{{ co.id }}">{{ co.name }} ({{ co.code }} - {{co.company}}})</option>
+                        {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                  </div>
+                  
+                </div>
+
+                
+      
+                <hr class="my-4">
+                <div class="text-success respuesta">
+                </div>
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Validar y guardar</button>
+
+                <hr class="my-4">
+              </form>
+            </div>
+            </div>
+    </div>
+    <div class="tab-pane fade" id="nav-sindicatos" role="tabpanel" aria-labelledby="nav-sindicatos-tab">
+        <div class="row g-12">
+            <div class="py-2 text-center">
+                <p class="lead text-muted"></p>
+            </div>
+            <div class="col-md-12 col-lg-12">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Ingresados</span>
+                <span id="unions_len" class="badge bg-primary rounded-pill">{{ context.unions|length }}</span>
+              </h4>
+              <ul id="unions_list" class="list-group mb-3">
+                {% for co in context.unions %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">{{ co.name }} - {{ co.code }} <span class="text-muted">({{ co.rut }})</span></h6>
+                      <small class="text-muted">{{ co.company }}</small>
+                    </div>
+                    <span class="text-muted"><a href="#"><i class="fas fa-edit"></i></a></span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+        
+            <div class="py-5 text-center">
+                <h2>Ingrese su Sindicato</h2>
+                <p class="lead text-muted">Puede registrar más de uno si es necesario</p>
+                <hr class="my-4">
+            </div>
+      
+        
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">Datos del Sindicato <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde</u></small></p></h4>
+              
+              <form class="needs-validation" novalidate id="cost_center"  data-url="/business/unions/">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="company" class="form-label">Razón Social</label>
+                    <select class="form-select" name="company" id="company" required>
+                      <option value=""> seleccionar...</option>
+                      {% for co in context.company %}
+                      <option value="{{ co.id }}">{{ co.business_name }} ({{ co.business_rut }})</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="code" class="form-label">Código 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="code" id="code" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="rut" class="form-label">RUT 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="rut" id="rut" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="rut" class="form-label">Estado 
+                    <div class="form-check">
+                        <input name="active" value="1" id="active_1" name="active" type="radio" class="form-check-input" checked required>
+                        <label class="form-check-label" for="active_1">Vigente</label>
+                    </div>
+                    <div class="form-check">
+                        <input name="active" value="0" id="active_0" name="active" type="radio" class="form-check-input" required>
+                        <label class="form-check-label" for="active_0">No vigente</label>
+                    </div>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="exempt_amount" class="form-label">Monto Exento Finiquito 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="exempt_amount" id="exempt_amount" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="exempt_amount_currency" class="form-label">Moneda de Monto Exento Finiquito 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="exempt_amount_currency" id="exempt_amount_currency" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  
+                </div>
+
+                
+      
+                <hr class="my-4">
+                <div class="text-success respuesta">
+                </div>
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Validar y guardar</button>
+
+                <hr class="my-4">
+              </form>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-cuentas-contables" role="tabpanel" aria-labelledby="nav-cuentas-contables-tab">
+        <div class="row g-12">
+            <div class="py-2 text-center">
+                <p class="lead text-muted"></p>
+            </div>
+            <div class="col-md-12 col-lg-12">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Ingresadas</span>
+                <span id="accounting_account_len" class="badge bg-primary rounded-pill">{{ context.accounting_account|length }}</span>
+              </h4>
+              <ul id="accounting_account_list" class="list-group mb-3">
+                {% for co in context.accounting_account %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">{{ co.name }} - {{ co.code }}</h6>
+                      <small class="text-muted">{{ co.company }}</small>
+                    </div>
+                    <span class="text-muted"><a href="#"><i class="fas fa-edit"></i></a></span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+        
+            <div class="py-5 text-center">
+                <h2>Ingrese sus Cuentas Contables</h2>
+                <p class="lead text-muted">Registre todas las necesarias</p>
+                <hr class="my-4">
+            </div>
+      
+        
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">Datos de Cuenta Contable <p class="lead text-muted"><small><u>Puede guardar sin tener todos los datos ingresados y continuar más tarde</u></small></p></h4>
+              
+              <form class="needs-validation" novalidate id="cost_center"  data-url="/api/business/accounting_account/">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="company" class="form-label">Razón Social</label>
+                    <select class="form-select" name="company" id="company" required>
+                      <option value=""> seleccionar...</option>
+                      {% for co in context.company %}
+                      <option value="{{ co.id }}">{{ co.business_name }} ({{ co.business_rut }})</option>
+                      {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="code" class="form-label">Código 
+                        <span class="text-muted"><small>(Opcional)</small></span></label>
+                    <input type="text" class="form-control" name="code" id="code" placeholder="" value="">
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>                  
+                </div>
+
+                
+      
+                <hr class="my-4">
+                <div class="text-success respuesta">
+                </div>
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Validar y guardar</button>
+
+                <hr class="my-4">
+              </form>
+            </div>
+        </div>
+    </div>
     <div class="tab-pane fade" id="nav-sucursal" role="tabpanel" aria-labelledby="nav-sucursal-tab">...</div>
   </div>
 </main>
