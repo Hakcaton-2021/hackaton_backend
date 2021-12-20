@@ -9,7 +9,7 @@ services:
             - DEBUG=1
             - PYTHONUNBUFFERED=1
             - DJANGO_SETTINGS_MODULE=hackaton.settings.base
-        command: sh -c "gunicorn hackaton.wsgi -b 0.0.0.0:8000 --reload"
+        command: sh -c "python manage.py migrate && gunicorn hackaton.wsgi -b 0.0.0.0:8000 --reload"
         volumes:
             - .:/code
         ports:
