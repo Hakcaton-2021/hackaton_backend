@@ -23,6 +23,8 @@ SECRET_KEY = "boLrE8LWmIQgXCPZwAvwU8QbrV8hC0AJpntmIEKY338gN8Id"
 
 URL = "http://127.0.0.1:8000"
 
+ALLOWED_HOSTS = ["*"]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -101,8 +103,24 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "postgres_hackaton",
+        "PORT": 5432,
+        "DISABLE_SERVER_SIDE_CURSORS": True,
+    }
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "admin_interface/public/media/")
+MEDIA_URL = "/media/"
+
 
 LANGUAGE_CODE = "es"
 
